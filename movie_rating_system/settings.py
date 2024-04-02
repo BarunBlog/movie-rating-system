@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # local apps
     'user',
+    'movie',
     
     # third party app
     'rest_framework',
@@ -126,7 +127,7 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.JSONParser',
         'rest_framework.parsers.FormParser',
         'rest_framework.parsers.MultiPartParser',
-    )
+    ),
 }
 
 SIMPLE_JWT = {
