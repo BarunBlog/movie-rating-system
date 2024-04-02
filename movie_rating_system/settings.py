@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # third party app
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
+    "phonenumber_field",
 ]
 
 AUTH_USER_MODEL = "user.User"
