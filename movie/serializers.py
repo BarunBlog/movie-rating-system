@@ -7,3 +7,10 @@ class CreateMovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         fields = ["name", "genre", "rating", "release_date"]
+
+
+class ListMovieSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Movie
+        fields = ["id", "name", "genre", "rating", "release_date"]
