@@ -1,8 +1,8 @@
 # Movie-Rating-System
-This is the backend component of the movie rating system application built with Python.
+This is the completed backend component of the movie rating system application built with Python.
 
 ## Technology used
-Python, Django, Django Rest Framework, and Postgresql as the database
+Python, Django, Django Rest Framework, and Postgresql as the database.
 
 # Prerequisites
 1. To run this project you need to install docker on your system.
