@@ -1,7 +1,7 @@
 from rest_framework import generics
 from .serializers import (
     CreateMovieSerializer,
-    ListMovieSerializer
+    GetMovieSerializer
 )
 from rest_framework.permissions import IsAuthenticated
 from .models import Movie
@@ -16,4 +16,12 @@ class CreateMovie(generics.ListCreateAPIView):
 class ListMovie(generics.ListAPIView):
     """ Api to get movie list """
     queryset = Movie.objects.all()
-    serializer_class = ListMovieSerializer
+    serializer_class = GetMovieSerializer
+
+
+class DetailMovie(generics.RetrieveAPIView):
+    """ Api to get detail of the movie """
+    serializer_class = GetMovieSerializer
+
+    def get_queryset(self):
+        return Movie.objects.filter(pk=self.kwargs['pk'])
