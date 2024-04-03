@@ -128,6 +128,8 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.FormParser',
         'rest_framework.parsers.MultiPartParser',
     ),
+    'DATE_FORMAT': '%d-%m-%Y',
+    'DATE_INPUT_FORMATS': ['%d-%m-%Y'],
 }
 
 SIMPLE_JWT = {
