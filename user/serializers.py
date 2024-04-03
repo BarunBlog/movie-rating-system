@@ -3,6 +3,7 @@ import string
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
+# This returns currently active user model
 User = get_user_model()
 
 

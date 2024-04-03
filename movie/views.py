@@ -1,10 +1,14 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from .serializers import (
     CreateMovieSerializer,
-    GetMovieSerializer
+    GetMovieSerializer,
+    RateMovieSerializer
 )
+from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from .models import Movie
+from rest_framework.response import Response
+from .models import Movie, MovieRating
+from django.db import IntegrityError
 
 
 class CreateMovie(generics.ListCreateAPIView):
@@ -25,3 +29,38 @@ class DetailMovie(generics.RetrieveAPIView):
 
     def get_queryset(self):
         return Movie.objects.filter(pk=self.kwargs['pk'])
+
+
+class RateMovie(APIView):
+    """ Api to rate a movie """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = RateMovieSerializer(data=request.data)
+        if serializer.is_valid():
+
+            movie_id = request.data["movie_id"]
+            rating = request.data["rating"]
+
+            # Get the movie from the database ---------------------------------------------------------------
+            try:
+                movie = Movie.objects.get(id=movie_id)
+            except Movie.DoesNotExist:
+                return Response(
+                    {"message": "Movie not found with the given id"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # Save the rating to the database ---------------------------------------------------------------
+            try:
+                MovieRating.objects.create(user=request.user, movie=movie, rating=rating)
+            except IntegrityError as e:
+                print(e, flush=True)
+                return Response(
+                    {"message": "You have already added rating for this movie"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            return Response({"message": "Movie rating saved successfully"}, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
