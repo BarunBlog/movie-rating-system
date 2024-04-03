@@ -2,7 +2,8 @@ from rest_framework import generics, status
 from .serializers import (
     CreateMovieSerializer,
     GetMovieSerializer,
-    RateMovieSerializer
+    RateMovieSerializer,
+    SearchMoviesSerializer
 )
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -64,3 +65,17 @@ class RateMovie(APIView):
             return Response({"message": "Movie rating saved successfully"}, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SearchMovies(APIView):
+    """ Api to search a movie """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        serializer = SearchMoviesSerializer(data=request.query_params)
+        if serializer.is_valid():
+            name = serializer.validated_data.get('name')
+            movies = Movie.objects.filter(name__icontains=name)
+            serializer = GetMovieSerializer(movies, many=True)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
