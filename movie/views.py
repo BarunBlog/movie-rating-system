@@ -23,11 +23,13 @@ class ListMovie(generics.ListAPIView):
     """ Api to get movie list """
     queryset = Movie.objects.all()
     serializer_class = ListMovieSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class DetailMovie(generics.RetrieveAPIView):
     """ Api to get detail of the movie """
     serializer_class = GetMovieSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return Movie.objects.filter(pk=self.kwargs['pk'])
