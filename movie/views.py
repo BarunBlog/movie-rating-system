@@ -2,6 +2,7 @@ from rest_framework import generics, status
 from .serializers import (
     CreateMovieSerializer,
     GetMovieSerializer,
+    ListMovieSerializer,
     RateMovieSerializer,
     SearchMoviesSerializer
 )
@@ -21,7 +22,7 @@ class CreateMovie(generics.ListCreateAPIView):
 class ListMovie(generics.ListAPIView):
     """ Api to get movie list """
     queryset = Movie.objects.all()
-    serializer_class = GetMovieSerializer
+    serializer_class = ListMovieSerializer
 
 
 class DetailMovie(generics.RetrieveAPIView):

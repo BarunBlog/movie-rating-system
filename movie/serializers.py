@@ -10,6 +10,12 @@ class CreateMovieSerializer(serializers.ModelSerializer):
         fields = ["name", "genre", "rating", "release_date"]
 
 
+class ListMovieSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Movie
+        fields = ["id", "name", "genre", "rating", "release_date"]
+
+
 class GetMovieSerializer(serializers.ModelSerializer):
     average_rating = serializers.SerializerMethodField()
 
