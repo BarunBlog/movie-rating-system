@@ -1,15 +1,12 @@
-version: '3.8'
-
 services:
   web:
     build: .
     container_name: movie-rating-system
     restart: unless-stopped
-    volumes:
-      - .:/app
     ports:
       - "8000:8000"
     environment:
+      - ENVIRONMENT=${ENVIRONMENT}
       - DEBUG=${DEBUG}
       - SECRET_KEY=${SECRET_KEY}
       - DB_NAME=${DB_NAME}
@@ -17,13 +14,14 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
+    command: sh ./run_web.sh
     depends_on:
       - dev-db
   dev-db:
-    image: postgres:latest
+    image: postgres:16
     container_name: movie-rating-system-postgres
     volumes:
-      - postgres-db:/data/postgres
+      - postgres-db:/var/lib/postgresql/data
     restart: unless-stopped
     ports:
       - "5430:5432"

@@ -1,6 +1,6 @@
-FROM python:3.8
+FROM python:3.10-alpine
 
-RUN apt update && apt install make
+#RUN apt update && apt install make
 
 WORKDIR /app
 
@@ -9,4 +9,6 @@ RUN pip3 install -r requirements.txt
 
 COPY . .
 
-CMD [ "make", "migrate_and_runserver"]
+COPY run_web.sh /run_web.sh
+
+RUN chmod +x /run_web.sh
